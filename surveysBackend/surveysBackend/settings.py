@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "yes")
 
-ALLOWED_HOSTS = ["10.0.1.28", "localhost", "0.0.0.0"]
+ALLOWED_HOSTS = ["10.0.1.2", "localhost", "0.0.0.0", "surveys.armap-design.ru", "surveys-backend.armap-design.ru"]
 extra_allowed_origin = os.getenv("DJANGO_ALLOWED_HOSTS")
 if extra_allowed_origin:
     ALLOWED_HOSTS.append(extra_allowed_origin)
@@ -115,9 +115,15 @@ WSGI_APPLICATION = 'surveysBackend.wsgi.application'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8081",
-    "http://10.0.1.28:8081",
+    "http://10.0.1.2:8081",
     "http://0.0.0.0:8081",
+    "http://surveys.armap-design.ru:8081",
+    "https://surveys.armap-design.ru:8081",
+    "http://surveys.armap-design.ru",
+    "https://surveys.armap-design.ru",
 ]
+# CORS_ALLOW_ALL_ORIGINS = True
+
 extra_cors_origin = os.getenv("DJANGO_CORS_EXTRA_ORIGIN")
 if extra_cors_origin:
     CORS_ALLOWED_ORIGINS.append(extra_cors_origin)
@@ -134,8 +140,8 @@ DATABASES = {
         'NAME': 'surveys_db',         # Имя твоей базы
         'USER': 'postgres',       # Имя пользователя БД
         'PASSWORD': os.getenv("DATABASE_PASSWORD"),   # Пароль пользователя
-        'HOST': 'localhost',          # Или IP/имя хоста (например, db для Docker)
-        'PORT': '5432',               # Порт по умолчанию
+        'HOST': os.getenv("DATABASE_HOST", 'localhost'),  # Или IP/имя хоста (например, db для Docker)
+        'PORT': os.getenv("DATABASE_PORT", '5432'),               # Порт по умолчанию
     }
 }
 
